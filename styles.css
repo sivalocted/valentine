@@ -461,12 +461,6 @@ p {
   justify-content: center;
 }
 
-.start-bottom {
-  margin-top: 60px;
-  display: grid;
-  place-items: center;
-}
-
 .start-card {
   width: min(520px, 92vw);
   background: var(--surface);
@@ -477,6 +471,11 @@ p {
   border: 1px solid rgba(255, 77, 109, 0.12);
   display: grid;
   gap: 12px;
+}
+
+.fun-grid .start-card {
+  grid-column: 1 / -1;
+  margin-top: 4px;
 }
 
 .action-bar {
