@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Valentine's Week for Mahalakshmi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Great+Vibes&family=Manrope:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero">
+        <div class="hero-card">
+          <div class="eyebrow">Valentine's Week 2026</div>
+          <h1>Mahalakshmi, this week is all for you.</h1>
+          <p class="subtitle">
+            Tap the button to reveal one surprise at a time, from February 7 to
+            February 14.
+          </p>
+          <div class="signature-script">Love, <span>Your Prince</span></div>
+          <div class="progress-wrap">
+            <div class="progress" data-progress></div>
+            <div class="status" data-status>
+              Tap “Start the surprises” to begin.
+            </div>
+          </div>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="glow"></div>
+          <img
+            class="hero-photo"
+            src="assets/mahalakshmi-hero.jpg"
+            alt="Mahalakshmi"
+            loading="lazy"
+          />
+          <div class="mini-card">Feb 7 - Feb 14</div>
+          <div class="floating-spark"></div>
+        </div>
+      </section>
+
+      <section class="fun-zone">
+        <div class="fun-header">
+          <div class="eyebrow">Little Fun</div>
+          <h2>Playful love moments</h2>
+          <p>
+            Tiny interactive surprises to make her smile before you start the
+            week-by-week reveals.
+          </p>
+        </div>
+        <div class="fun-grid">
+          <article class="fun-card">
+            <h3>Love Fortune</h3>
+            <p class="fun-text" data-fortune>
+              Tap the button for a sweet little fortune.
+            </p>
+            <button class="btn ghost small" type="button" data-fortune-btn>
+              New fortune
+            </button>
+          </article>
+          <article class="fun-card">
+            <h3>Hug Meter</h3>
+            <p class="fun-text">Slide to send a warm hug.</p>
+            <input class="meter" type="range" min="0" max="100" value="70" data-meter />
+            <div class="meter-label" data-meter-label>Hug level: 70%</div>
+          </article>
+          <article class="fun-card">
+            <h3>Secret Gift</h3>
+            <p class="fun-text">A tiny surprise wrapped in love.</p>
+            <button class="btn primary small" type="button" data-gift>
+              Open the gift
+            </button>
+            <div class="gift-reveal" data-gift-reveal hidden>
+              A kiss, a hug, and a forever promise just for you.
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="reveal-section">
+        <div class="week-stack" data-week></div>
+      </section>
+
+      <section class="final-note" data-final hidden>
+        <h2>Happy Valentine's Day, Mahalakshmi</h2>
+        <p>
+          You are my favorite story, my safest place, and my sweetest forever.
+          Thank you for being you.
+        </p>
+        <div class="final-sign">Always yours, <span>Your Prince</span></div>
+      </section>
+    </main>
+
+    <div class="action-bar">
+      <button class="btn primary" data-next>Start the surprises</button>
+      <button class="btn ghost" data-replay disabled>Replay</button>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
