@@ -142,13 +142,6 @@ p {
   font-weight: 600;
 }
 
-.mobile-cta {
-  margin-top: 16px;
-  display: none;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
 .card-actions {
   margin-top: 6px;
   display: none;
@@ -468,6 +461,24 @@ p {
   justify-content: center;
 }
 
+.start-bottom {
+  margin-top: 60px;
+  display: grid;
+  place-items: center;
+}
+
+.start-card {
+  width: min(520px, 92vw);
+  background: var(--surface);
+  border-radius: 26px;
+  padding: 28px;
+  text-align: center;
+  box-shadow: 0 22px 44px var(--shadow);
+  border: 1px solid rgba(255, 77, 109, 0.12);
+  display: grid;
+  gap: 12px;
+}
+
 .action-bar {
   position: fixed;
   bottom: calc(18px + env(safe-area-inset-bottom, 0px));
@@ -595,10 +606,6 @@ p {
 
   .hero-card {
     padding: 24px;
-  }
-
-  .mobile-cta {
-    display: flex;
   }
 
   .hero-visual {
