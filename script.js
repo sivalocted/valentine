@@ -74,6 +74,24 @@ const fortunes = [
   "You are my calm, my joy, and my biggest adventure.",
 ];
 
+const dateIdeas = [
+  "Movie night with her favorite snacks and soft blankets.",
+  "A sunset walk with hand-holding and sweet photos.",
+  "Bake something together and taste-test the batter.",
+  "Coffee date followed by a slow, romantic playlist.",
+  "Write tiny love notes and hide them around the room.",
+  "Stargazing with warm tea and whispered wishes.",
+];
+
+const compliments = [
+  "You light up every room you enter.",
+  "Your smile is my favorite view.",
+  "You make love feel effortless and safe.",
+  "You are beautiful, inside and out, always.",
+  "Every day with you feels like a blessing.",
+  "You are my calm, my spark, and my forever.",
+];
+
 const weekEl = document.querySelector("[data-week]");
 const progressEl = document.querySelector("[data-progress]");
 const nextBtn = document.querySelector("[data-next]");
@@ -86,8 +104,21 @@ const meterInput = document.querySelector("[data-meter]");
 const meterLabel = document.querySelector("[data-meter-label]");
 const giftBtn = document.querySelector("[data-gift]");
 const giftReveal = document.querySelector("[data-gift-reveal]");
+const dateIdeaEl = document.querySelector("[data-date-idea]");
+const dateBtn = document.querySelector("[data-date-btn]");
+const complimentEl = document.querySelector("[data-compliment]");
+const complimentBtn = document.querySelector("[data-compliment-btn]");
 
 const cardEls = [];
+
+const safeScrollTo = (element, block = "center") => {
+  if (!element) return;
+  try {
+    element.scrollIntoView({ behavior: "smooth", block });
+  } catch (error) {
+    element.scrollIntoView(true);
+  }
+};
 
 const buildCard = (day) => {
   const card = document.createElement("article");
@@ -132,6 +163,19 @@ const setFortune = () => {
   fortuneEl.textContent = pick;
 };
 
+const setDateIdea = () => {
+  if (!dateIdeaEl) return;
+  const pick = dateIdeas[Math.floor(Math.random() * dateIdeas.length)];
+  dateIdeaEl.textContent = pick;
+};
+
+const setCompliment = () => {
+  if (!complimentEl) return;
+  const pick = compliments[Math.floor(Math.random() * compliments.length)];
+  complimentEl.textContent = pick;
+  launchConfetti();
+};
+
 const updateMeterLabel = (value) => {
   if (!meterLabel) return;
   let mood = "Warm and cozy";
@@ -169,6 +213,8 @@ const setup = () => {
   buildProgress();
   updateStatus(-1);
   setFortune();
+  setDateIdea();
+  setCompliment();
   if (meterInput) {
     updateMeterLabel(meterInput.value);
   }
@@ -183,7 +229,7 @@ const revealNext = () => {
   const card = cardEls[currentIndex];
   if (card) {
     card.classList.add("is-revealed");
-    card.scrollIntoView({ behavior: "smooth", block: "center" });
+    safeScrollTo(card, "center");
   }
 
   const hearts = Array.from(progressEl.children);
@@ -199,7 +245,7 @@ const revealNext = () => {
     replayBtn.disabled = false;
     if (finalEl) {
       finalEl.hidden = false;
-      finalEl.scrollIntoView({ behavior: "smooth", block: "start" });
+      safeScrollTo(finalEl, "start");
     }
     launchConfetti();
   } else {
@@ -220,7 +266,11 @@ const replay = () => {
   nextBtn.disabled = false;
   replayBtn.disabled = true;
   updateStatus(-1);
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  try {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  } catch (error) {
+    window.scrollTo(0, 0);
+  }
 };
 
 setup();
@@ -235,6 +285,14 @@ if (replayBtn) {
 
 if (fortuneBtn) {
   fortuneBtn.addEventListener("click", setFortune);
+}
+
+if (dateBtn) {
+  dateBtn.addEventListener("click", setDateIdea);
+}
+
+if (complimentBtn) {
+  complimentBtn.addEventListener("click", setCompliment);
 }
 
 if (meterInput) {
