@@ -94,8 +94,8 @@ const compliments = [
 
 const weekEl = document.querySelector("[data-week]");
 const progressEl = document.querySelector("[data-progress]");
-const nextBtn = document.querySelector("[data-next]");
-const replayBtn = document.querySelector("[data-replay]");
+let nextBtns = [];
+let replayBtns = [];
 const statusEl = document.querySelector("[data-status]");
 const finalEl = document.querySelector("[data-final]");
 const fortuneEl = document.querySelector("[data-fortune]");
@@ -108,6 +108,9 @@ const dateIdeaEl = document.querySelector("[data-date-idea]");
 const dateBtn = document.querySelector("[data-date-btn]");
 const complimentEl = document.querySelector("[data-compliment]");
 const complimentBtn = document.querySelector("[data-compliment-btn]");
+const audioEl = document.querySelector("[data-audio]");
+const audioToggle = document.querySelector("[data-audio-toggle]");
+const audioStatus = document.querySelector("[data-audio-status]");
 
 const cardEls = [];
 
@@ -133,9 +136,32 @@ const buildCard = (day) => {
       <h3 class="day-title">${day.title}</h3>
       <p class="day-message">${day.message}</p>
       <div class="day-wish">${day.wish}</div>
+      <div class="card-actions">
+        <button class="btn ghost small card-next" type="button" data-next>
+          Next surprise
+        </button>
+      </div>
     </div>
   `;
   return card;
+};
+
+const refreshActionButtons = () => {
+  nextBtns = Array.from(document.querySelectorAll("[data-next]"));
+  replayBtns = Array.from(document.querySelectorAll("[data-replay]"));
+};
+
+const updateNextButtons = (label, disabled) => {
+  nextBtns.forEach((btn) => {
+    btn.textContent = label;
+    btn.disabled = disabled;
+  });
+};
+
+const updateReplayButtons = (disabled) => {
+  replayBtns.forEach((btn) => {
+    btn.disabled = disabled;
+  });
 };
 
 const buildProgress = () => {
@@ -176,6 +202,17 @@ const setCompliment = () => {
   launchConfetti();
 };
 
+const updateAudioUI = (isPlaying) => {
+  if (audioToggle) {
+    audioToggle.textContent = isPlaying ? "Pause our song" : "Play our song";
+  }
+  if (audioStatus) {
+    audioStatus.textContent = isPlaying
+      ? "Playing softly in the background."
+      : "Tap to play.";
+  }
+};
+
 const updateMeterLabel = (value) => {
   if (!meterLabel) return;
   let mood = "Warm and cozy";
@@ -201,7 +238,7 @@ const launchConfetti = () => {
 };
 
 const setup = () => {
-  if (!weekEl || !progressEl || !nextBtn || !replayBtn) return;
+  if (!weekEl || !progressEl) return;
 
   weekEl.innerHTML = "";
   days.forEach((day) => {
@@ -209,6 +246,8 @@ const setup = () => {
     weekEl.appendChild(card);
     cardEls.push(card);
   });
+
+  refreshActionButtons();
 
   buildProgress();
   updateStatus(-1);
@@ -218,6 +257,9 @@ const setup = () => {
   if (meterInput) {
     updateMeterLabel(meterInput.value);
   }
+  updateAudioUI(false);
+  updateNextButtons("Start the surprises", false);
+  updateReplayButtons(true);
 };
 
 let currentIndex = -1;
@@ -240,16 +282,15 @@ const revealNext = () => {
   updateStatus(currentIndex);
 
   if (currentIndex === days.length - 1) {
-    nextBtn.textContent = "All surprises revealed";
-    nextBtn.disabled = true;
-    replayBtn.disabled = false;
+    updateNextButtons("All surprises revealed", true);
+    updateReplayButtons(false);
     if (finalEl) {
       finalEl.hidden = false;
       safeScrollTo(finalEl, "start");
     }
     launchConfetti();
   } else {
-    nextBtn.textContent = "Next surprise";
+    updateNextButtons("Next surprise", false);
   }
 };
 
@@ -262,9 +303,8 @@ const replay = () => {
   if (finalEl) {
     finalEl.hidden = true;
   }
-  nextBtn.textContent = "Start the surprises";
-  nextBtn.disabled = false;
-  replayBtn.disabled = true;
+  updateNextButtons("Start the surprises", false);
+  updateReplayButtons(true);
   updateStatus(-1);
   try {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -275,13 +315,9 @@ const replay = () => {
 
 setup();
 
-if (nextBtn) {
-  nextBtn.addEventListener("click", revealNext);
-}
-
-if (replayBtn) {
-  replayBtn.addEventListener("click", replay);
-}
+refreshActionButtons();
+nextBtns.forEach((btn) => btn.addEventListener("click", revealNext));
+replayBtns.forEach((btn) => btn.addEventListener("click", replay));
 
 if (fortuneBtn) {
   fortuneBtn.addEventListener("click", setFortune);
@@ -293,6 +329,26 @@ if (dateBtn) {
 
 if (complimentBtn) {
   complimentBtn.addEventListener("click", setCompliment);
+}
+
+if (audioToggle && audioEl) {
+  audioToggle.addEventListener("click", () => {
+    if (audioEl.paused) {
+      audioEl
+        .play()
+        .then(() => updateAudioUI(true))
+        .catch(() => {
+          if (audioStatus) {
+            audioStatus.textContent = "Tap again to play.";
+          }
+        });
+    } else {
+      audioEl.pause();
+      updateAudioUI(false);
+    }
+  });
+  audioEl.addEventListener("play", () => updateAudioUI(true));
+  audioEl.addEventListener("pause", () => updateAudioUI(false));
 }
 
 if (meterInput) {

@@ -23,6 +23,21 @@
             February 14.
           </p>
           <div class="signature-script">Love, <span>Your Prince</span></div>
+          <div class="music-player">
+            <button class="btn ghost small" type="button" data-audio-toggle>
+              Play our song
+            </button>
+            <span class="music-status" data-audio-status>Tap to play.</span>
+            <audio data-audio src="assets/love-song.mp3" preload="none" loop></audio>
+          </div>
+          <div class="mobile-cta">
+            <button class="btn primary" type="button" data-next>
+              Start the surprises
+            </button>
+            <button class="btn ghost" type="button" data-replay disabled>
+              Replay
+            </button>
+          </div>
           <div class="progress-wrap">
             <div class="progress" data-progress></div>
             <div class="status" data-status>
@@ -110,6 +125,9 @@
           Thank you for being you.
         </p>
         <div class="final-sign">Always yours, <span>Your Prince</span></div>
+        <div class="final-actions">
+          <button class="btn ghost" type="button" data-replay>Replay</button>
+        </div>
       </section>
     </main>
 
